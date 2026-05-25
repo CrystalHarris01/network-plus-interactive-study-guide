@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSI Model Lab</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.scenario-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:18px;
+}
+
+.scenario-card {
+  padding:24px;
+  background:rgba(15,23,42,0.88);
+  border:1px solid rgba(56,189,248,0.25);
+  border-radius:22px;
+}
+
+.scenario-card h3 {
+  color:#38bdf8;
+}
+
+.layer {
+  margin-top:14px;
+  color:#22c55e;
+  font-weight:800;
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<header class="hero">
+<nav class="nav">
+<div class="logo">OSI<span>MODEL</span></div>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="#quiz">Quiz</a>
+<a href="#scenarios">Scenarios</a>
+</div>
+</nav>
+
+<section class="hero-content">
+<p class="eyebrow">CompTIA Network+ OSI Training</p>
+<h1>OSI Model Scenario Lab</h1>
+<p class="subtitle">Practice identifying OSI layers through real-world networking devices, protocols, troubleshooting examples, and communication processes.</p>
+</section>
+</header>
+
+<main>
+<section class="section" id="quiz">
+<div class="section-title"><p>Challenge Mode</p><h2>OSI Quiz</h2></div>
+<div class="quiz-box">
+<div class="quiz-header"><span id="osiCount">Question 1 of 10</span><span id="osiScore">Score: 0</span></div>
+<h3 id="osiQuestion"></h3>
+<div id="osiAnswers" class="answers"></div>
+<p id="osiFeedback" class="feedback"></p>
+<button class="btn secondary" onclick="nextOSIQuestion()">Next Question</button>
+</div>
+</section>
+
+<section class="section" id="scenarios">
+<div class="section-title"><p>Scenario Mode</p><h2>50 OSI Scenarios</h2></div>
+<div class="scenario-grid" id="scenarioGrid"></div>
+</section>
+</main>
+
+<script>
+const scenarios = [
+['A network cable is unplugged from a switch.', 'Physical Layer'],
+['A switch forwards frames using MAC addresses.', 'Data Link Layer'],
+['A router forwards packets between networks.', 'Network Layer'],
+['TCP establishes a reliable connection.', 'Transport Layer'],
+['A user logs into a remote session.', 'Session Layer'],
+['SSL encrypts transmitted data.', 'Presentation Layer'],
+['DNS resolves a domain name.', 'Application Layer'],
+['Wi-Fi signal interference occurs.', 'Physical Layer'],
+['A NIC uses a MAC address.', 'Data Link Layer'],
+['IP addressing determines routing.', 'Network Layer'],
+['UDP sends connectionless traffic.', 'Transport Layer'],
+['A VPN tunnel session is maintained.', 'Session Layer'],
+['JPEG image formatting occurs.', 'Presentation Layer'],
+['HTTP delivers web pages.', 'Application Layer'],
+['Fiber optic cabling transmits bits.', 'Physical Layer'],
+['An Ethernet frame is rebuilt.', 'Data Link Layer'],
+['ICMP sends echo requests.', 'Network Layer'],
+['TCP port numbers identify services.', 'Transport Layer'],
+['NetBIOS manages communication sessions.', 'Session Layer'],
+['ASCII text encoding is translated.', 'Presentation Layer'],
+['SMTP sends email.', 'Application Layer'],
+['A repeater boosts signal strength.', 'Physical Layer'],
+['A bridge filters traffic by MAC.', 'Data Link Layer'],
+['A router uses routing tables.', 'Network Layer'],
+['TCP handles retransmissions.', 'Transport Layer'],
+['A session timeout disconnects a user.', 'Session Layer'],
+['Data compression occurs before transmission.', 'Presentation Layer'],
+['FTP transfers files.', 'Application Layer'],
+['Coaxial cable carries electrical signals.', 'Physical Layer'],
+['VLAN tagging occurs.', 'Data Link Layer'],
+['IP fragmentation occurs.', 'Network Layer'],
+['TCP performs the three-way handshake.', 'Transport Layer'],
+['RPC establishes communication sessions.', 'Session Layer'],
+['Unicode conversion occurs.', 'Presentation Layer'],
+['SSH provides remote administration.', 'Application Layer'],
+['A damaged cable causes packet loss.', 'Physical Layer'],
+['Switch ports learn MAC addresses.', 'Data Link Layer'],
+['A packet crosses multiple routers.', 'Network Layer'],
+['UDP streams video quickly.', 'Transport Layer'],
+['A video call session stays active.', 'Session Layer'],
+['TLS secures browser traffic.', 'Presentation Layer'],
+['DHCP assigns IP addresses.', 'Application Layer'],
+['Bluetooth radio transmission occurs.', 'Physical Layer'],
+['Ethernet uses frame check sequences.', 'Data Link Layer'],
+['OSPF exchanges routing information.', 'Network Layer'],
+['TCP guarantees packet delivery.', 'Transport Layer'],
+['A login session reconnects after interruption.', 'Session Layer'],
+['Encryption keys format secure data.', 'Presentation Layer'],
+['SNMP monitors devices.', 'Application Layer'],
+['A patch panel organizes cabling.', 'Physical Layer']
+];
+
+const grid = document.getElementById('scenarioGrid');
+
+scenarios.forEach((scenario, index) => {
+  const card = document.createElement('div');
+  card.className = 'scenario-card';
+  card.innerHTML = `<h3>Scenario ${index + 1}</h3><p>${scenario[0]}</p><div class="layer">${scenario[1]}</div>`;
+  grid.appendChild(card);
+});
+
+const quizData = [
+{q:'Which OSI layer handles routing?',a:['Physical','Network','Presentation','Session'],c:'Network'},
+{q:'Which layer uses MAC addresses?',a:['Data Link','Application','Transport','Presentation'],c:'Data Link'},
+{q:'Which layer encrypts data?',a:['Physical','Presentation','Transport','Network'],c:'Presentation'},
+{q:'Which layer handles HTTP?',a:['Application','Session','Network','Data Link'],c:'Application'},
+{q:'Which layer establishes reliable delivery?',a:['Physical','Transport','Session','Data Link'],c:'Transport'},
+{q:'Which layer handles signals and cabling?',a:['Physical','Application','Session','Transport'],c:'Physical'},
+{q:'Which device mainly operates at Layer 3?',a:['Switch','Hub','Router','Repeater'],c:'Router'},
+{q:'Which protocol is connectionless?',a:['TCP','UDP','SSH','HTTPS'],c:'UDP'},
+{q:'Which layer manages communication sessions?',a:['Session','Transport','Physical','Data Link'],c:'Session'},
+{q:'Which layer formats and compresses data?',a:['Presentation','Application','Transport','Network'],c:'Presentation'}
+];
+
+let current = 0;
+let score = 0;
+
+function loadOSIQuestion() {
+const q = quizData[current];
+document.getElementById('osiQuestion').textContent = q.q;
+document.getElementById('osiCount').textContent = `Question ${current+1} of ${quizData.length}`;
+const answers = document.getElementById('osiAnswers');
+answers.innerHTML='';
+
+q.a.forEach(answer=>{
+const btn=document.createElement('button');
+btn.className='answer-btn';
+btn.textContent=answer;
+btn.onclick=()=>checkOSI(answer,btn);
+answers.appendChild(btn);
+});
+}
+
+function checkOSI(answer,btn){
+const q=quizData[current];
+const buttons=document.querySelectorAll('.answer-btn');
+buttons.forEach(b=>b.disabled=true);
+
+if(answer===q.c){
+btn.classList.add('correct');
+document.getElementById('osiFeedback').textContent='Correct!';
+score++;
+}else{
+btn.classList.add('wrong');
+document.getElementById('osiFeedback').textContent=`Incorrect. Correct answer: ${q.c}`;
+}
+
+document.getElementById('osiScore').textContent=`Score: ${score}`;
+}
+
+function nextOSIQuestion(){
+current++;
+if(current>=quizData.length){current=0;}
+document.getElementById('osiFeedback').textContent='';
+loadOSIQuestion();
+}
+
+loadOSIQuestion();
+</script>
+</body>
+</html>
