@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network+ Interactive Study Guide</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header class="hero">
+    <nav class="nav">
+      <div class="logo">NETWORK<span>PLUS</span></div>
+      <div class="nav-links">
+        <a href="#flashcards">Flashcards</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#ports">Ports</a>
+        <a href="#linux">Commands</a>
+      </div>
+    </nav>
+
+    <section class="hero-content">
+      <p class="eyebrow">CompTIA Network+ Interactive Learning</p>
+      <h1>Network+ Interactive Study Guide</h1>
+      <p class="subtitle">
+        Master networking fundamentals with flashcards, quizzes, XP, streak tracking, port drills, and command practice.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#quiz" class="btn primary">Start Quiz</a>
+        <a href="#flashcards" class="btn secondary">Review Flashcards</a>
+      </div>
+    </section>
+
+    <section class="stats-panel">
+      <div>
+        <span id="xp">0</span>
+        <p>XP Earned</p>
+      </div>
+      <div>
+        <span id="streak">0</span>
+        <p>Correct Streak</p>
+      </div>
+      <div>
+        <span id="mastery">0%</span>
+        <p>Mastery</p>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section class="section" id="flashcards">
+      <div class="section-title">
+        <p>Memory Mode</p>
+        <h2>Flashcards</h2>
+      </div>
+
+      <div class="card flashcard" id="flashcard">
+        <div class="tag">Click to reveal</div>
+        <h3 id="flashQuestion">What does DHCP do?</h3>
+        <p id="flashAnswer" class="hidden">
+          DHCP automatically assigns IP addresses and network configuration to devices.
+        </p>
+      </div>
+
+      <button class="btn primary" onclick="nextFlashcard()">Next Card</button>
+    </section>
+
+    <section class="section" id="quiz">
+      <div class="section-title">
+        <p>Challenge Mode</p>
+        <h2>Quick Quiz</h2>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-header">
+          <span id="questionCount">Question 1 of 5</span>
+          <span id="score">Score: 0</span>
+        </div>
+
+        <h3 id="quizQuestion">Which port is used for HTTPS?</h3>
+
+        <div id="answers" class="answers"></div>
+
+        <p id="feedback" class="feedback"></p>
+
+        <button class="btn secondary" onclick="nextQuestion()">Next Question</button>
+      </div>
+    </section>
+
+    <section class="section" id="ports">
+      <div class="section-title">
+        <p>Ports & Protocols</p>
+        <h2>Port Drill</h2>
+      </div>
+
+      <div class="port-grid">
+        <div class="port-card"><span>20/21</span><p>FTP</p></div>
+        <div class="port-card"><span>22</span><p>SSH</p></div>
+        <div class="port-card"><span>23</span><p>Telnet</p></div>
+        <div class="port-card"><span>53</span><p>DNS</p></div>
+        <div class="port-card"><span>67/68</span><p>DHCP</p></div>
+        <div class="port-card"><span>80</span><p>HTTP</p></div>
+        <div class="port-card"><span>110</span><p>POP3</p></div>
+        <div class="port-card"><span>143</span><p>IMAP</p></div>
+        <div class="port-card"><span>443</span><p>HTTPS</p></div>
+        <div class="port-card"><span>3389</span><p>RDP</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="linux">
+      <div class="section-title">
+        <p>CLI Practice</p>
+        <h2>Networking Commands</h2>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span></span><span></span><span></span>
+        </div>
+
+        <p><span class="prompt">$</span> ip addr</p>
+        <p class="terminal-output">Displays IP address information for interfaces.</p>
+
+        <p><span class="prompt">$</span> ping 8.8.8.8</p>
+        <p class="terminal-output">Tests connectivity to a remote host.</p>
+
+        <p><span class="prompt">$</span> traceroute google.com</p>
+        <p class="terminal-output">Shows the route packets take across networks.</p>
+
+        <p><span class="prompt">$</span> nslookup google.com</p>
+        <p class="terminal-output">Queries DNS records.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built by Crystal Harris • CompTIA Network+ Study Project</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
