@@ -48,5 +48,4 @@ This project demonstrates frontend fundamentals, technical documentation, networ
 
 ## Author
 
-Crystal Harris  
-Cybersecurity | GRC | Cloud Security | Network+ Candidate
+Crystal Harris
