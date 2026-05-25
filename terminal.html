@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux CLI Lab</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .terminal-page {
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cli-window {
+      width: min(1100px, 100%);
+      height: 700px;
+      background: #020617;
+      border: 1px solid rgba(56,189,248,0.35);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(56,189,248,0.12);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cli-header {
+      background: rgba(15,23,42,0.95);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(56,189,248,0.15);
+    }
+
+    .cli-title {
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .cli-screen {
+      flex: 1;
+      overflow-y: auto;
+      padding: 22px;
+      font-family: Consolas, monospace;
+      color: #d1fae5;
+      background: #010409;
+    }
+
+    .line {
+      margin-bottom: 10px;
+      white-space: pre-wrap;
+    }
+
+    .prompt-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prompt {
+      color: #22c55e;
+      font-weight: 900;
+    }
+
+    .cli-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #e5f3ff;
+      width: 100%;
+      font-family: Consolas, monospace;
+      font-size: 1rem;
+    }
+
+    .hint-box {
+      padding: 20px;
+      background: rgba(15,23,42,0.92);
+      border-top: 1px solid rgba(56,189,248,0.15);
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <div class="terminal-page">
+    <div class="cli-window">
+      <div class="cli-header">
+        <div class="cli-title">NETWORK+ LINUX CLI LAB</div>
+        <a href="index.html" class="btn secondary">Back</a>
+      </div>
+
+      <div class="cli-screen" id="screen">
+        <div class="line">Welcome to the Network+ Linux CLI Simulator.</div>
+        <div class="line">Type 'help' to see available commands.</div>
+      </div>
+
+      <div class="hint-box">
+        Available commands: help, ls, pwd, whoami, ip addr, ping 8.8.8.8, traceroute google.com, nslookup google.com, netstat -tuln, cat ports.txt, clear
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const screen = document.getElementById('screen');
+
+    const responses = {
+      'help': `Available commands:\nhelp\nls\npwd\nwhoami\nip addr\nping 8.8.8.8\ntraceroute google.com\nnslookup google.com\nnetstat -tuln\ncat ports.txt\nclear`,
+
+      'ls': 'Documents  Downloads  labs  ports.txt  notes.txt',
+
+      'pwd': '/home/networkplus/student',
+
+      'whoami': 'student',
+
+      'ip addr': `2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP>\n    inet 192.168.1.44/24 brd 192.168.1.255 scope global dynamic eth0`,
+
+      'ping 8.8.8.8': `PING 8.8.8.8 (8.8.8.8): 56 data bytes\n64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=18.1 ms\n64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=17.4 ms`,
+
+      'traceroute google.com': `1 192.168.1.1 1.1 ms\n2 10.22.0.1 8.3 ms\n3 google.com 17.2 ms`,
+
+      'nslookup google.com': `Server: 8.8.8.8\nAddress: 8.8.8.8#53\n\nNon-authoritative answer:\nName: google.com\nAddress: 142.250.191.14`,
+
+      'netstat -tuln': `Proto Local Address   State\ntcp   0.0.0.0:22     LISTEN\ntcp   0.0.0.0:80     LISTEN\ntcp   0.0.0.0:443    LISTEN`,
+
+      'cat ports.txt': `22 SSH\n53 DNS\n67/68 DHCP\n80 HTTP\n443 HTTPS\n3389 RDP`
+    };
+
+    function createInputLine() {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'prompt-line';
+
+      const prompt = document.createElement('span');
+      prompt.className = 'prompt';
+      prompt.textContent = 'student@networklab:$';
+
+      const input = document.createElement('input');
+      input.className = 'cli-input';
+      input.autocomplete = 'off';
+
+      wrapper.appendChild(prompt);
+      wrapper.appendChild(input);
+      screen.appendChild(wrapper);
+
+      input.focus();
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const command = input.value.trim();
+          input.disabled = true;
+          processCommand(command);
+        }
+      });
+
+      screen.scrollTop = screen.scrollHeight;
+    }
+
+    function processCommand(command) {
+      if (command === 'clear') {
+        screen.innerHTML = '';
+        createInputLine();
+        return;
+      }
+
+      const output = document.createElement('div');
+      output.className = 'line';
+
+      if (responses[command]) {
+        output.textContent = responses[command];
+      } else {
+        output.textContent = `Command not found: ${command}`;
+      }
+
+      screen.appendChild(output);
+      createInputLine();
+    }
+
+    createInputLine();
+  </script>
+</body>
+</html>
